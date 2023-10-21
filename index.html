@@ -1,8 +1,41 @@
 <html>
-  <head>
-    <meta http-equiv="refresh" content="5;url=https://david-dev8.github.io/">
-  </head>
   <body>
     <p>Hello world!</p>
+    <p id="number">Total number:</p>
+    <button>Get count</button>
   </body>
+  <script>
+    const KEY = `visitors`;
+const NAMESPACE = "kflefewoooalknflewiwnelknlfewnklfweo182eiknfee";
+const COUNT_URL = `https://api.countapi.xyz`;
+    const getCount = async () => {
+        const response = await fetch(`${COUNT_URL}/get/${NAMESPACE}/${KEY}`);
+        const data = await response.json();
+      setValue(data.value);
+        return data.value;
+    };
+    
+    const incrementCount = async () => {
+        const response = await fetch(`${COUNT_URL}/hit/${NAMESPACE}/${KEY}`);
+        const data = await response.json();
+      setValue(data.value);
+        return data.value;
+    };
+    
+    const setValue = (num) => {
+      const counter = document.getElementById("number");
+        counter.innerText = `Total Unique Visitor: ${num}`;
+    };
+    
+    if (localStorage.getItem("hasVisited") == null) {
+        incrementCount()
+            .then(() => {
+                localStorage.setItem("hasVisited", "true");
+            })
+            .catch((err) => console.log(err));
+    } else {
+        const data = await getCount();
+        console.log(data);
+    }
+  </script>
 </html>
